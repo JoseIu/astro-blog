@@ -1,16 +1,30 @@
 ---
+import BlogPostTyped from '@components/BlogPostTyped.astro';
+import MainLayout from '@layouts/MainLayout.astro';
+import { getCollection } from 'astro:content';
 
+const posts = await getCollection('blog');
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<MainLayout title="Home">
+  <section class="wrapper">
+    <h1>From the blog</h1>
+    <div class="blogs">
+      {posts.map(post => <BlogPostTyped post={post} />)}
+    </div>
+  </section>
+</MainLayout>
+
+<style>
+  .blogs {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+    gap: 1rem;
+  }
+
+  @media screen and (min-width: 1050px) {
+    .blogs {
+      grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+    }
+  }
+</style>

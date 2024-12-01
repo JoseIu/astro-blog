@@ -15,6 +15,7 @@
 }
 :root {
   --tex-color: #fff;
+  --text-smoke: rgb(191 193 201 / 1);
   --bg-color: hsl(224, 10%, 10%);
   --bg-card: rgba(23, 25, 30, 0.8);
   --border-color: hsl(224, 10%, 23%);
@@ -24,8 +25,8 @@
 *,
 *::before,
 *::after {
-  margin: 0;
-  padding: 0;
+  /* margin: 0; */
+  /* padding: 0; */
   border: 0;
   box-sizing: border-box;
 }
@@ -93,6 +94,7 @@ td {
 }
 
 body {
+  padding: 0;
   min-height: 100vh;
   font-size: 100%;
   font-family: var(--content-font);
