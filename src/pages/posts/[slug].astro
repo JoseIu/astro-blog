@@ -1,0 +1,48 @@
+---
+import MainLayout from '@layouts/MainLayout.astro';
+import type { GetStaticPaths } from 'astro';
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import { formatter } from 'public/utils/formatter';
+export const getStaticPaths = (async () => {
+  const blogs = await getCollection('blog');
+  const paths = blogs.map(post => ({
+    params: { slug: post.slug },
+    props: { post: post }
+  }));
+  return paths;
+}) satisfies GetStaticPaths;
+
+const { slug } = Astro.params;
+const { post } = Astro.props;
+const { title, author, date, image } = post.data;
+
+const { Content, headings } = await post.render();
+---
+
+<MainLayout title={title}>
+  <section class="wrapper post">
+    <Image src={image} alt={title} width={600} height={300} transition:name={`${post.slug}-image`} />
+    <div class="post__info">
+      <span class="post__date">{formatter(date)}</span>
+      <span class="post__author">{author}</span>
+
+      <ol>
+        {
+          headings.map((heading, index) => (
+            <li>
+              <a href={`#${heading.slug}`}>
+                {index + 1}
+                {heading.text}
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <Content />
+  </section>
+</MainLayout>
+
+<style></style>
