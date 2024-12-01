@@ -1,0 +1,59 @@
+---
+import { formatter } from 'public/utils/formatter';
+
+const { frontmatter, url } = Astro.props;
+---
+
+<article class="blogs__item">
+  <picture class="blogs__picture">
+    <img class="blogs__img" src={frontmatter.image} alt={frontmatter.title} />
+  </picture>
+  <div class="blogs__content">
+    <h2>
+      <a class="blogs__link" href={url}> {frontmatter.description} </a>
+    </h2>
+    <span class="blogs__date"> {formatter(frontmatter.date)}</span>
+  </div>
+</article>
+<style>
+  .blogs__item {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    padding: 1rem;
+
+    /* display: flex;
+    flex-direction: column; */
+    display: grid;
+    gap: 1rem;
+  }
+
+  .blogs__picture {
+    width: 100%;
+  }
+  .blogs__img {
+    border-radius: 0.5rem;
+    height: 14rem;
+    aspect-ratio: 16 / 9;
+  }
+  .blogs__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .blogs__link {
+    text-overflow: ellipsis;
+    font-size: clamp(1.5rem, 2vw, 2rem);
+  }
+  .blogs__date {
+  }
+
+  @media screen and (min-width: 1100px) {
+    .blogs__picture {
+      max-width: 20rem;
+    }
+    .blogs__item {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
