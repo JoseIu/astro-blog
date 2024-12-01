@@ -22,6 +22,7 @@ const { Content, headings } = await post.render();
 
 <MainLayout title={title}>
   <section class="wrapper post">
+    <button onclick="history.back()"> go back</button>
     <Image src={image} alt={title} width={600} height={300} transition:name={`${post.slug}-image`} />
     <div class="post__info">
       <span class="post__date">{formatter(date)}</span>
