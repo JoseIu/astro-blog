@@ -1,0 +1,29 @@
+---
+import BlogPost from '@components/BlogPost.astro';
+import MainLayout from '@layouts/MainLayout.astro';
+
+const posts = await Astro.glob('./posts-old/*{.md,mdx}');
+---
+
+<MainLayout title="Home">
+  <section class="wrapper">
+    <h1>From the blog-old</h1>
+    <div class="blogs">
+      {posts.map(post => <BlogPost {...post} />)}
+    </div>
+  </section>
+</MainLayout>
+
+<style>
+  .blogs {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(23rem, 1fr));
+    gap: 1rem;
+  }
+
+  @media screen and (min-width: 800px) {
+    .blogs {
+      grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+    }
+  }
+</style>
