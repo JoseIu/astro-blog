@@ -4,7 +4,6 @@ import MainLayout from '@layouts/MainLayout.astro';
 import type { GetStaticPaths } from 'astro';
 import { Image } from 'astro:assets';
 import { getCollection, getEntry } from 'astro:content';
-import { formatter } from 'public/utils/formatter';
 export const getStaticPaths = (async () => {
   const blogs = await getCollection('blog');
   const paths = blogs.map(post => ({
@@ -27,7 +26,7 @@ const author = await getEntry('author', post.data.author.id);
   <section class="wrapper post">
     <header class="post__header">
       <button onclick="history.back()"> go back</button>
-      <AuthorAvatar author={author} date={date} />
+      <AuthorAvatar author={author} date={date} post={post} />
       <Image
         class="post__image"
         src={image}
