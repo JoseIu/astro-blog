@@ -1,0 +1,39 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { formatter } from 'public/utils/formatter';
+
+type Props = {
+  author: CollectionEntry<'author'>;
+  date: Date;
+};
+
+const { author, date } = Astro.props;
+const { name, avatar } = author.data;
+---
+
+<article class="author-avatar">
+  <Image class="author-avatar__img" src={avatar} alt={name} width={50} height={50} />
+  <div>
+    <p class="author-avatar__text">{name}</p>
+    <span class="author-avatar__text">{formatter(date)}</span>
+  </div>
+</article>
+
+<style>
+  .author-avatar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .author-avatar__img {
+    border-radius: 100%;
+    width: 3.125rem;
+    height: 3.125rem;
+  }
+  .author-avatar__text {
+    font-size: 0.9rem;
+    color: var(--text-smoke);
+    margin: 0;
+  }
+</style>
