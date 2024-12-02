@@ -1,0 +1,45 @@
+---
+import AuthorAvatar from '@components/AuthorAvatar.astro';
+import BlogPostTyped from '@components/BlogPostTyped.astro';
+import MainLayout from '@layouts/MainLayout.astro';
+import type { GetStaticPaths } from 'astro';
+import { getCollection } from 'astro:content';
+
+export const getStaticPaths = (async () => {
+  const [posts, authors] = await Promise.all([await getCollection('blog'), await getCollection('author')]);
+
+  return authors.map(author => ({
+    params: { author: author.id },
+    props: {
+      posts: posts.filter(post => post.data.author.id === author.id),
+      author: author
+    }
+  }));
+}) satisfies GetStaticPaths;
+
+const { posts, author } = Astro.props;
+---
+
+<MainLayout title={`${author.data.name}-posts`}>
+  <section class="wrapper">
+    <button onclick="history.back()">Regresar</button>
+    <AuthorAvatar author={author} text="Todos mis posts" />
+
+    <div class="posts">
+      {posts.map(post => <BlogPostTyped post={post} />)}
+    </div>
+  </section>
+</MainLayout>
+<style>
+  .posts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+    gap: 1rem;
+  }
+
+  @media screen and (min-width: 1050px) {
+    .posts {
+      grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+    }
+  }
+</style>
