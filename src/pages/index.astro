@@ -9,6 +9,9 @@ const posts = await getCollection('blog');
 <MainLayout title="Home">
   <section class="wrapper">
     <h1>From the blog</h1>
+    <a href="/authors">Ver autores</a>
+    <a href="/blog/1">Ver posts</a>
+
     <div class="blogs">
       {posts.map(post => <BlogPostTyped post={post} />)}
     </div>

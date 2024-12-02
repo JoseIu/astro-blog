@@ -100,8 +100,7 @@ body {
   font-family: var(--content-font);
   color: var(--tex-color);
   background-color: var(--bg-color);
-  /* (Opcional) */
-  hyphens: auto;
+  text-wrap: balance;
   /* (Opcional) */
   font-smooth: always;
   /* (Opcional) */
