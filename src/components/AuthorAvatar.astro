@@ -5,19 +5,36 @@ import { formatter } from 'public/utils/formatter';
 
 type Props = {
   author: CollectionEntry<'author'>;
-  date: Date;
+  post?: CollectionEntry<'blog'>;
+  date?: Date;
+  text?: string;
 };
 
-const { author, date } = Astro.props;
+const { author, date, post, text } = Astro.props;
 const { name, avatar } = author.data;
 ---
 
 <article class="author-avatar">
   <Image class="author-avatar__img" src={avatar} alt={name} width={50} height={50} />
-  <div>
-    <p class="author-avatar__text">{name}</p>
-    <span class="author-avatar__text">{formatter(date)}</span>
-  </div>
+
+  {
+    post && date && (
+      <div>
+        <a href={`/blog/${post.data.author.id}`} class="author-avatar__text">
+          {name}
+        </a>
+        <span class="author-avatar__text">{formatter(date)}</span>
+      </div>
+    )
+  }
+  {
+    text && (
+      <div>
+        <p class="author-avatar__text">{name}</p>
+        <span class="author-avatar__text">{text}</span>
+      </div>
+    )
+  }
 </article>
 
 <style>
