@@ -1,0 +1,56 @@
+---
+import BlogPostTyped from '@components/BlogPostTyped.astro';
+import MainLayout from '@layouts/MainLayout.astro';
+import type { GetStaticPaths } from 'astro';
+import { getCollection } from 'astro:content';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = await getCollection('blog');
+
+  return paginate(posts, { pageSize: 4 });
+}) satisfies GetStaticPaths;
+
+// Type GetStaticPaths de Astro
+const { page } = Astro.props;
+---
+
+<MainLayout title="blogs paginated">
+  <section class="wrapper">
+    <h1 class="title">Joselu's Blog paginado</h1>
+
+    <div class="posts">
+      {page.data.map(post => <BlogPostTyped post={post} />)}
+    </div>
+
+    <div aria-label="Controles" class="actions">
+      <a href={page.url.prev} class:list={['actions__btn', { disabled: !page.url.prev }]}>Anteriores</a>
+
+      <a href={page.url.next} class:list={['actions__btn', { disabled: !page.url.next }]}>Siguientes</a>
+    </div>
+  </section>
+</MainLayout>
+
+<style>
+  .title {
+    font-size: clamp(2rem, 5vw, 3rem);
+  }
+  .posts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+    gap: 1rem;
+  }
+  .actions {
+    padding-top: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .disabled {
+    opacity: 0.5;
+  }
+  @media screen and (min-width: 1050px) {
+    .posts {
+      grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+    }
+  }
+</style>
