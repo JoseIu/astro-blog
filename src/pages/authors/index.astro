@@ -1,0 +1,82 @@
+---
+import MainLayout from '@layouts/MainLayout.astro';
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+
+const authors = await getCollection('author');
+---
+
+<MainLayout title="Autores">
+  <section class="wrapper">
+    <h1>Autores - {authors.length}</h1>
+
+    <div class="authors">
+      {
+        authors.map(author => (
+          <article class="author-card">
+            <Image
+              class="author-card__img"
+              src={author.data.avatar}
+              alt={author.data.name}
+              width={250}
+              height={250}
+            />
+            <h2>{author.data.name}</h2>
+            <span class="author-car__subtitle">{author.data.subtitle}</span>
+            <p class="author-card__bio">{author.data.bio}</p>
+
+            <ul class="author-card__socials">
+              <li>
+                <a href={`https://x.com/${author.data.twitter}`} target="_blank" rel="noopener noreferrer">
+                  Twitter
+                </a>
+              </li>
+              <li>
+                <a href={author.data.linkedIn} target="_blank" rel="noopener noreferrer">
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a href={author.data.github} target="_blank" rel="noopener noreferrer">
+                  Github
+                </a>
+              </li>
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</MainLayout>
+
+<style>
+  .authors {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  .author-card {
+    padding: 1rem;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 0.3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .author-card__img {
+    width: 10rem;
+    height: 10rem;
+    border-radius: 100%;
+  }
+
+  .author-card__bio,
+  .author-car__subtitle {
+    color: var(--text-smoke);
+  }
+  .author-card__socials {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+</style>
